@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'head_section.html'%}
+    <title>Attendant sign up</title>
+</head>
+<body>
+<h3 class="container">Attendant signup</h3>
+<section class="">
+    <div class="container text-white">
+        {%include 'msg.html'%}
+        <form action="/attendants_signup" method="post">
+            <fieldset class="form-group border p-3" style="width: 450px">
+                <label>attendant id</label><br>
+                <input class="form-control" type="text" placeholder="Enter attendant id" name="attendant_id" style="width: 400px" required>
+                <label>Name</label><br>
+                <input class="form-control" type="text" placeholder="Enter name" name="name" style="width: 400px" required>
+                <label>Email address</label><br>
+                <input class="form-control" type="email" placeholder="Enter email address" name="email" style="width: 400px" required>
+                <label>Phone number</label><br>
+                <input class="form-control" type="number" placeholder="Enter Phone number" name="phone" style="width: 400px" required><br>
+                <button class="btn btn-outline-danger" type="submit">Sign up</button><br><br>
+            </fieldset>
+        </form>
+    </div>
+</section>
+
+</body>
+</html>
