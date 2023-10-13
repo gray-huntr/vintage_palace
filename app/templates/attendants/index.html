@@ -2,15 +2,17 @@
 <html lang="en">
 <head>
     {%include 'head_section.html'%}
-    <title>Sales</title>
+    <title>Sign in</title>
 </head>
 <body>
-<h3>Sales</h3>
+<h3 class="container">Sign in</h3>
+{%include 'msg.html'%}
 <section>
-    <div class="col-md-4">
+    <div class=" container">
         <form action="">
-            <label>Input art number below</label>
-            
+            <label>Input your attendant code below</label><br>
+            <input type="text" name="attendant_id" placeholder="Attendant code" required class="form-control"><br>
+            <button type="submit" class="btn btn-dark">Sign in</button>
         </form>
     </div>
     <div class="col-md-4">

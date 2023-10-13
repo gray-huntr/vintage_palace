@@ -6,3 +6,4 @@ app = Flask(__name__)
 app.config.from_object(configs.Config)
 
 from app import admins
+from app import attendants
