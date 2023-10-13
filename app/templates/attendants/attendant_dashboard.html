@@ -6,14 +6,16 @@
 </head>
 <body>
 <h3 class="container">Welcome to the Attendant dashboard</h3>
+<div class="container">{%include 'msg.html'%}</div>
 <div class="row container">
-    {%include 'msg.html'%}
+
     <div class="col-md-4">
-        <form action="", method="post">
+        <form action="/attendant_dashboard" method="post">
             <fieldset class="form-group border p-3">
                 <label>Input art number below</label><br>
                 <input type="text" name="art_number" placeholder="Art number" class="form-control"><br>
                 <button class="btn btn-dark" type="submit">Search</button>
+                <a href="/attendant_dashboard"><button class="btn btn-dark" type="button">Reset</button></a>
             </fieldset>
         </form>
     </div>
@@ -21,7 +23,8 @@
     <div class="col-md-8">
 <!--        Show this if attendant searches for a product-->
         <fieldset class="form-group border">
-            <form action="">
+            {%if 'cart' not in session%}
+            <form action="/cart/add" method="post">
                 {%for row in rows%}
                 <div class="row">
                     <div class="col-md-5">
@@ -31,6 +34,7 @@
                     <div class="col-md-7">
                         <input type="hidden" value="{{row [1]}}" name="art_number">
                         <input type="hidden" value="{{row [3]}}" name="price">
+                        <input type="hidden" value="{{row [5]}}" name="name">
                         <h4>Name: {{row [5]}}</h4>
                         <h4>Price: KSH {{row [3]}}</h4>
                         <label>Input quantity purchased below</label><br>
@@ -41,25 +45,38 @@
                 </div>
                 {%endfor%}
             </form>
+            {%else%}
+            <!--        Show this if nothing has been searched-->
+            <div class="alert-info" role="alert">{{msg}}</div>
+            <table class="table">
+                <tr>
+                    <th>ART NUMBER</th>
+                    <th>PRICE</th>
+                    <th>QUANTITY</th>
+                    <th>TOTAL</th>
+                    <th>ACTION</th>
+                </tr>
+                {% for row in rows%}
+                <tr>
+                    <td>{{row [1]}}</td>
+                    <td>{{row [3]}}</td>
+                    <td>{{row [4]}}</td>
+                    <td>{{row [5]}}</td>
+                    <td>
+                        <form action="/cart/remove" method="post">
+                            <input type="hidden" name="cart_id" value="{{row[0]}}">
+                            <button class="btn btn-danger">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                {%endfor%}
+                <tr>
+                    <td><h4>TOTAL: KSH{{total}}</h4></td>
+                </tr>
+            </table>
+            {%endif%}
         </fieldset>
-<!--        Show this if nothing has been searched-->
-        <div class="no-records alert alert-info">{{msg}}</div>
-        <table class="table">
-            <tr>
-                <th>ART NUMBER</th>
-                <th>PRICE</th>
-                <th>QUANTITY</th>
-                <th>TOTAL</th>
-            </tr>
-            {% for row in rows%}
-            <tr>
-                <td>{{row [1]}}</td>
-                <td>{{row [3]}}</td>
-                <td>{{row [4]}}</td>
-                <td>{{row [5]}}</td>
-            </tr>
-            {%endfor%}
-        </table>
+
     </div>
 </div>
 
