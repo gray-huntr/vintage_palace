@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%include 'head_section.html'%}
+    <title>Attendant dashboard</title>
+</head>
+<body>
+<h3 class="container">Welcome to the Attendant dashboard</h3>
+<div class="row container">
+    {%include 'msg.html'%}
+    <div class="col-md-4">
+        <form action="", method="post">
+            <fieldset class="form-group border p-3">
+                <label>Input art number below</label><br>
+                <input type="text" name="art_number" placeholder="Art number" class="form-control"><br>
+                <button class="btn btn-dark" type="submit">Search</button>
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="col-md-8">
+<!--        Show this if attendant searches for a product-->
+        <fieldset class="form-group border">
+            <form action="">
+                {%for row in rows%}
+                <div class="row">
+                    <div class="col-md-5">
+                        <img src="static/images/{{row [5]}}" alt="" style="width: 300px; height: 300px" class="rounded">
+                    </div>
+
+                    <div class="col-md-7">
+                        <input type="hidden" value="{{row [1]}}" name="art_number">
+                        <input type="hidden" value="{{row [3]}}" name="price">
+                        <h4>Name: {{row [5]}}</h4>
+                        <h4>Price: KSH {{row [3]}}</h4>
+                        <label>Input quantity purchased below</label><br>
+                        <input type="number" name="quantity" value="1" class="form-control"><br>
+                        <button class="btn btn-dark">Add to cart</button>
+                        <button class="btn btn-dark">Cancel</button>
+                    </div>
+                </div>
+                {%endfor%}
+            </form>
+        </fieldset>
+<!--        Show this if nothing has been searched-->
+        <div class="no-records alert alert-info">{{msg}}</div>
+        <table class="table">
+            <tr>
+                <th>ART NUMBER</th>
+                <th>PRICE</th>
+                <th>QUANTITY</th>
+                <th>TOTAL</th>
+            </tr>
+            {% for row in rows%}
+            <tr>
+                <td>{{row [1]}}</td>
+                <td>{{row [3]}}</td>
+                <td>{{row [4]}}</td>
+                <td>{{row [5]}}</td>
+            </tr>
+            {%endfor%}
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
