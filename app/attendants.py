@@ -74,10 +74,48 @@ def cart(action):
             conn.commit()
             flash("Product added to cart successfully", "success")
             return redirect("/attendant_dashboard")
+        elif action == 'remove':
+            cart_id = request.form['cart_id']
 
+            cursor.execute("delete from cart where cart_id = %s and sold_by = %s", (cart_id,session['attendant']))
+            conn.commit()
+            flash("Item removed successfully", "success")
+            return redirect("/attendant_dashboard")
     else:
         flash("Error occurred try again", "warning")
         return redirect("/attendant_dashboard")
 
 
+@app.route("/checkout")
+def checkout():
+    #  connect to database
+    conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
+                           password=app.config["DB_PASSWORD"],
+                           database=app.config["DB_NAME"])
+    cursor = conn.cursor()
+    sale_id = 102
+    cursor.execute("select * from cart where sold_by = %s ", session['attendant'])
+    if cursor.rowcount > 0:
+        rows = cursor.fetchall()
 
+        for row in rows:
+            art_number = row[1]
+            name = row[2]
+            price = row[3]
+            quantity = row[4]
+            total = row[5]
+            cursor.execute("insert into sales_records( sale_id, art_number, name, price, quantity, total, sold_by) "
+                           "values(%s,%s,%s,%s,%s,%s,%s)",
+                           (sale_id, art_number,name,price,quantity,total,session['attendant']))
+            conn.commit()
+            cursor.execute("select * from shoes where art_number = %s" , art_number)
+            shoe = cursor.fetchall()
+            for rows in shoe:
+                amount_sold = rows[4] + quantity
+                cursor.execute("update shoes set amount_sold = %s where art_number = %s", (amount_sold,art_number))
+                conn.commit()
+        cursor.execute("delete from cart where sold_by = %s ", session['attendant'])
+        conn.commit()
+        sale_id = 3
+        flash("Order completed successfully", "success")
+        return redirect("/attendant_dashboard")

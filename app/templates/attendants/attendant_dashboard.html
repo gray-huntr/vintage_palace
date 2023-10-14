@@ -13,7 +13,7 @@
         <form action="/attendant_dashboard" method="post">
             <fieldset class="form-group border p-3">
                 <label>Input art number below</label><br>
-                <input type="text" name="art_number" placeholder="Art number" class="form-control"><br>
+                <input type="text" name="art_number" required placeholder="Art number" class="form-control"><br>
                 <button class="btn btn-dark" type="submit">Search</button>
                 <a href="/attendant_dashboard"><button class="btn btn-dark" type="button">Reset</button></a>
             </fieldset>
@@ -72,6 +72,9 @@
                 {%endfor%}
                 <tr>
                     <td><h4>TOTAL: KSH{{total}}</h4></td>
+                </tr>
+                <tr>
+                    <td><a href="/checkout" class="btn btn-dark">Checkout</a></td>
                 </tr>
             </table>
             {%endif%}
