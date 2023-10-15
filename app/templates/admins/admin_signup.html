@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%include 'head_section.html'%}
+    <title>admin sign up</title>
+</head>
+<body>
+<h3 class="container">Admin signup</h3>
+<section class="">
+    <div class="container">
+        {%include 'msg.html'%}
+        <form action="/admin_signup" method="post">
+            <fieldset class="form-group border p-3">
+                <label>Enter name</label><br>
+                <input class="form-control" type="text" placeholder="Enter first name" name="name" required>
+                <label>Email address</label><br>
+                <input class="form-control" type="email" placeholder="Enter email address" name="email" required>
+                <label>Phone number</label><br>
+                <input class="form-control" type="number" placeholder="Enter Phone number" name="phone" required>
+                <label>Password</label><br>
+                <input class="form-control" type="password" placeholder="Enter password" name="password" required>
+                <label>Repeat password</label><br>
+                <input class="form-control" type="password" placeholder="Repeat password" name="repeat_pass" required><br>
+                <button class="btn btn-dark" type="submit">Sign up</button><br><br>
+            </fieldset>
+        </form>
+    </div>
+</section>
+
+</body>
+</html>

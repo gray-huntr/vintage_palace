@@ -9,6 +9,45 @@ def allowed_file(filename):
     return ('.' in filename and
             filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS'])
 
+@app.route("/admin_signup", methods=['POST', 'GET'])
+def admin_signup():
+    if request.method == 'POST':
+        name = request.form['name']
+        phone = request.form['phone']
+        email = request.form['email']
+        password = request.form['password']
+        repeat_pass = request.form['repeat_pass']
+        #  connect to database
+        conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
+                               password=app.config["DB_PASSWORD"],
+                               database=app.config["DB_NAME"])
+        cursor = conn.cursor()
+        # Check first whether there is an already existing account
+        cursor.execute("select * from admins where email = %s ", email)
+        if cursor.rowcount > 0:
+            flash("Email already exists", "warning")
+            return render_template('admins/admin_signup.html')
+        else:
+            # if there is no existing account, check whether the two passwords match
+            if password == repeat_pass:
+                #     insert the records to the users tables
+                cursor.execute(
+                    "insert into admins(name,email,number,password) values (%s,%s,%s,%s)",
+                    (name, email, phone, password))
+                # save records
+                conn.commit()
+                flash("Admin signed up successfully", "success")
+                return render_template('admins/admin_signup.html', )
+                # if passwords do not match display the following message
+            elif password != repeat_pass:
+                flash("Passwords do not match", "danger")
+                return render_template('admins/admin_signup.html')
+            else:
+                flash("Error occurred please try again", "info")
+                return render_template('admins/admin_signup.html')
+    else:
+        return render_template('admins/admin_signup.html')
+
 @app.route("/shoe_upload", methods=['POST', 'GET'])
 def shoe_upload():
     if request.method == 'POST':
@@ -16,9 +55,10 @@ def shoe_upload():
             flash('No file part', "warning")
             return redirect("/shoe_upload")
         file = request.files['file']
-        art_number = request.form['art_number']
+        name = request.form['name']
         price = request.form['price']
         shoe_type = request.form['shoe_type']
+        stock = request.form['stock']
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
         if file.filename == '':
@@ -35,10 +75,17 @@ def shoe_upload():
 
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                sql = ("insert into shoes(art_number,shoe_type,price,picture) "
-                       "values(%s,%s,%s,%s)")
+                sql = ("insert into shoes(art_number,shoe_type,shoe_name,price,stock,picture)"
+                       "values(%s,%s,%s,%s,%s,%s)")
+                cursor.execute("select * from shoes order by product_number desc limit 1")
+                rows = cursor.fetchall()
+                art_number = 0
+                for row in rows:
+                    s_id = row[0]+1
+                    art_number = "S"+str(s_id)
+
                 # send to database
-                cursor.execute(sql, (art_number, shoe_type, price,filename))
+                cursor.execute(sql, (art_number, shoe_type,name, price,stock,filename))
                 # Save to database
                 conn.commit()
                 flash("Uploaded Successfully", "success")

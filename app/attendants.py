@@ -138,7 +138,8 @@ def sales():
                            database=app.config["DB_NAME"])
     cursor = conn.cursor()
     if 'attendant' in session:
-        cursor.execute("select * from sales_records where sold_by = %s", session['attendant'])
+        cursor.execute("select * from sales_records where sold_by = %s group by  sale_id order by sale_id desc",
+                       session['attendant'])
         if cursor.rowcount == 0:
             flash("You don't have any complete sales", "info")
             return render_template("sales.html")
