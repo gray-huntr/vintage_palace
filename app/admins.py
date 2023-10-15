@@ -178,3 +178,31 @@ def sales_search():
                 flash("Error occurred try again", "Warning")
                 return redirect("/sales")
 
+@app.route("/shoe_records", methods=['POST','GET'])
+def shoe_records():
+    if 'admin' in session:
+        #  connect to database
+        conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
+                               password=app.config["DB_PASSWORD"],
+                               database=app.config["DB_NAME"])
+        cursor = conn.cursor()
+        if request.method == 'POST':
+            art_number = request.form['art_number']
+            s_type = request.form['s_type']
+            s_name = request.form['s_name']
+            price = request.form['price']
+            stock = request.form['stock']
+
+            cursor.execute("update shoes set shoe_type = %s, shoe_name = %s, price = %s, stock =%s where art_number = %s",
+                           (s_type,s_name,price,stock,art_number))
+            conn.commit()
+            flash("Record updated successfully", "success")
+            return redirect("/shoe_records")
+        else:
+            cursor.execute("select * from shoes")
+            if cursor.rowcount == 0:
+                flash("There are no Records available", "Danger")
+                return render_template("admins/shoe_records.html")
+            else:
+                rows = cursor.fetchall()
+                return render_template("admins/shoe_records.html", rows=rows)

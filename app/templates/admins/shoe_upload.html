@@ -5,9 +5,9 @@
     <title>Shoe upload</title>
 </head>
 <body>
-    <h3 class="container">Shoe uploads</h3> <br><br><br>
+{%include 'admins/admin_nav.html'%}
+    <h3 class="container">Shoe uploads</h3>
     <div class="container">
-        <!--    function to display success or error messages-->
         {%include 'msg.html'%}
 <!--        File selecting-->
         <form action="/shoe_upload" enctype="multipart/form-data" method="post">

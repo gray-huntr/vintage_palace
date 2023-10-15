@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%include 'head_section.html'%}
+    <title>Shoes</title>
+</head>
+<body>
+{%include 'admins/admin_nav.html'%}
+<h3 class="container">Shoe records</h3>
+<div class="container">
+    {% include 'msg.html'%}
+    <table class="table ">
+        <tr>
+            <th>Art number</th>
+            <th>Shoe type</th>
+            <th>Shoe name</th>
+            <th>Price</th>
+            <th>Amount sold</th>
+            <th>Stock</th>
+            <th>Action</th>
+        </tr>
+        {%for row in rows%}
+        <form action="/shoe_records" method="post">
+        <tr>
+                <td><input type="hidden" name="art_number" value="{{row [1]}}" >{{row [1]}}</td>
+                <td><input type="text" value="{{row [2]}}" name="s_type" class="form-control"></td>
+                <td><input type="text" value="{{row [3]}}" name="s_name" class="form-control"></td>
+                <td><input type="number" value="{{row [4]}}" name="price" class="form-control"></td>
+                <td>{{row [5]}}</td>
+                <td><input type="number" name="stock" value="{{row [6]}}" class="form-control"></td>
+                <td class="row">
+                    <div class="col-md-6"><button type="submit" class="btn btn-danger" >Update</button></div>
+                    <div class="col-md-6"><a href="" class="btn btn-dark">Remove</a></div>
+                </td>
+        </tr>
+        </form>
+        {%endfor%}
+    </table>
+</div>
+</body>
+</html>
