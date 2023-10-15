@@ -155,3 +155,26 @@ def attendants_signup():
             return render_template('admins/attendants_signup.html')
     else:
         return render_template('admins/attendants_signup.html')
+
+@app.route("/sales_search", methods=['POST','GET'])
+def sales_search():
+    if 'admin' in session:
+        if request.method == 'POST':
+            query = request.form['search']
+            #  connect to database
+            conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
+                                   password=app.config["DB_PASSWORD"],
+                                   database=app.config["DB_NAME"])
+            cursor = conn.cursor()
+            cursor.execute("select * from sales_records where sale_id = %s or name = %s or attendant_id = %s group by sale_id",
+                           (query,query,query))
+            if cursor.rowcount == 0:
+                flash("The are no records for that id or name", "danger")
+                return redirect("/sales")
+            elif cursor.rowcount > 0:
+                rows = cursor.fetchall()
+                return render_template("sales.html", rows=rows)
+            else:
+                flash("Error occurred try again", "Warning")
+                return redirect("/sales")
+

@@ -34,7 +34,37 @@
     </div>
 </section>
 {%else%}
+<h3 class="container">Sales records</h3>
+    <div class="container">
+        {% include 'msg.html'%}
+        <form action="/sales_search" method="post">
+            <label>Enter name or attendant ID</label>
+            <input type="text" name="search" required class="form-control"> <br>
+            <button class="btn btn-dark">Search</button>
+            <a href="/sales" class="btn btn-dark">Reset</a>
+        </form>
+        <table class="table ">
+            <tr class="bg-dark text-white">
+                <th>SALE ID</th>
+                <th>DATE</th>
+                <th>TIME</th>
+                <th>SOLD BY</th>
+                <th>ACTION</th>
+            </tr>
+            {% for row in rows%}
+            <tr>
+                <td>{{row [1]}}</td>
+                <td>{{row [9]}}</td>
+                <td>{{row [10]}}</td>
+                <td>{{row [7]}}</td>
+                <td>
+                    <a href="/view/{{row [1]}}"><button class="btn btn-info">View order</button></a>
+                </td>
+            </tr>
+            {%endfor%}
+        </table>
 
+    </div>
 {%endif%}
 
 </body>

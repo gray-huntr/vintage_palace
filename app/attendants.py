@@ -146,8 +146,16 @@ def sales():
         else:
             rows=cursor.fetchall()
             return render_template("sales.html", rows=rows)
+    elif 'admin' in session:
+        cursor.execute("select * from sales_records group by  sale_id order by sale_id desc")
+        if cursor.rowcount == 0:
+            flash("There are no sales records", "info")
+            return render_template("sales.html")
+        else:
+            rows = cursor.fetchall()
+            return render_template("sales.html", rows=rows)
     else:
-        flash("Please login first")
+        flash("Please log in first", "warning")
         return redirect("/")
 
 @app.route("/view/<sale_id>")
@@ -170,3 +178,12 @@ def view(sale_id):
     else:
         flash("Error occurred try again", "warning")
         return redirect("/sales")
+
+@app.route("/logout")
+def logout():
+    if 'attendant' in session:
+        session.pop('attendant', None)
+        return redirect("/")
+    if 'admin' in session:
+        session.pop('admin', None)
+        return redirect("/admin_login")

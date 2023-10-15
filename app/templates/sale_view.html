@@ -33,7 +33,31 @@
         </table>
     </div>
 {%else%}
-
+<h3 class="container">Sale view</h3>
+<div class="container">
+            {% include 'msg.html'%}
+            <table class="table">
+            <tr class="bg-dark text-white">
+                <td>ART NUMBER</td>
+                <td>NAME OF SHOE</td>
+                <td>PRICE</td>
+                <td>QUANTITY</td>
+                <td>TOTAL</td>
+            </tr>
+            {%for row in rows%}
+            <tr>
+                <td>{{row [2]}}</td>
+                <td>{{row [3]}}</td>
+                <td>{{row [4]}}</td>
+                <td>{{row [5]}}</td>
+                <td>{{row [6]}}</td>
+            </tr>
+            {%endfor%}
+            <tr class="bg-dark text-white">
+               <td><h5> Total: KSH {{total}}</h5></td>
+            </tr>
+        </table>
+    </div>
 {%endif%}
 </body>
 </html>
