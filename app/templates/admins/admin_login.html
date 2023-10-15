@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%include 'head_section.html'%}
+    <title>Admin login</title>
+</head>
+<body>
+<h3 class="container">Admin login</h3>
+<div class="container" >
+        {%include 'msg.html'%}
+        <form action="/admin_login" method="post">
+            <fieldset class="form-group border p-3">
+                <label>Enter email</label><br>
+                <input type="text" name="email" class="form-control" required placeholder="Enter email">
+                <label>Enter password</label><br>
+                <input type="password" name="password" class="form-control" required placeholder="Enter password"><br>
+                <button type="submit" class="btn btn-outline-dark">LOGIN</button><br><br>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>

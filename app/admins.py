@@ -48,6 +48,27 @@ def admin_signup():
     else:
         return render_template('admins/admin_signup.html')
 
+@app.route("/admin_login", methods=['POST', 'GET'])
+def admin_login():
+    if request.method == "POST":
+        email = request.form['email']
+        password = request.form['password']
+
+        #  connect to database
+        conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
+                               password=app.config["DB_PASSWORD"],
+                               database=app.config["DB_NAME"])
+        # pick the record from the clients table
+        cursor = conn.cursor()
+        cursor.execute("select * from admins where email =%s and password=%s", (email, password))
+        # if cursor.rowcount == 1:
+        if cursor.rowcount == 1:
+            session['admin'] = email
+            return redirect('/shoe_upload')
+        elif cursor.rowcount == 0:
+            flash("User does not exist or incorrect password", "warning")
+            return render_template('admins/admin_login.html')
+    return render_template('admins/admin_login.html')
 @app.route("/shoe_upload", methods=['POST', 'GET'])
 def shoe_upload():
     if request.method == 'POST':
