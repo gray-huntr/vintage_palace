@@ -28,15 +28,15 @@
                 {%for row in rows%}
                 <div class="row">
                     <div class="col-md-5">
-                        <img src="static/images/{{row [5]}}" alt="" style="width: 300px; height: 300px" class="rounded">
+                        <img src="static/images/{{row [7]}}" alt="" style="width: 300px; height: 300px" class="rounded">
                     </div>
 
                     <div class="col-md-7">
                         <input type="hidden" value="{{row [1]}}" name="art_number">
-                        <input type="hidden" value="{{row [3]}}" name="price">
-                        <input type="hidden" value="{{row [5]}}" name="name">
-                        <h4>Name: {{row [5]}}</h4>
-                        <h4>Price: KSH {{row [3]}}</h4>
+                        <input type="hidden" value="{{row [4]}}" name="price">
+                        <input type="hidden" value="{{row [3]}}" name="name">
+                        <h4>Name: {{row [3]}}</h4>
+                        <h4>Price: KSH {{row [4]}}</h4>
                         <label>Input quantity purchased below</label><br>
                         <input type="number" name="quantity" value="1" class="form-control"><br>
                         <button class="btn btn-dark">Add to cart</button>

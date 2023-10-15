@@ -61,6 +61,8 @@ def cart(action):
                            password=app.config["DB_PASSWORD"],
                            database=app.config["DB_NAME"])
     cursor = conn.cursor()
+    cursor.execute("select attendant_id from attendants where name = %s ", session['attendant'])
+    a_id = cursor.fetchone()
     if request.method == 'POST':
         if action == 'add':
             art_number = request.form['art_number']
@@ -69,8 +71,8 @@ def cart(action):
             quantity = int(request.form['quantity'])
             total = price * quantity
 
-            cursor.execute("insert into cart(art_number, shoe_name, price,quantity,total, sold_by) "
-                           "values (%s,%s,%s,%s,%s,%s)", (art_number,shoe_name,price,quantity,total,session['attendant']))
+            cursor.execute("insert into cart(art_number, shoe_name, price,quantity,total, sold_by, attendant_id) "
+                           "values (%s,%s,%s,%s,%s,%s,%s)", (art_number,shoe_name,price,quantity,total,session['attendant'],a_id))
             conn.commit()
             flash("Product added to cart successfully", "success")
             return redirect("/attendant_dashboard")
@@ -93,29 +95,37 @@ def checkout():
                            password=app.config["DB_PASSWORD"],
                            database=app.config["DB_NAME"])
     cursor = conn.cursor()
-    sale_id = 102
     cursor.execute("select * from cart where sold_by = %s ", session['attendant'])
     if cursor.rowcount > 0:
         rows = cursor.fetchall()
-
         for row in rows:
             art_number = row[1]
             name = row[2]
             price = row[3]
             quantity = row[4]
             total = row[5]
-            cursor.execute("insert into sales_records( sale_id, art_number, name, price, quantity, total, sold_by) "
-                           "values(%s,%s,%s,%s,%s,%s,%s)",
-                           (sale_id, art_number,name,price,quantity,total,session['attendant']))
+            a_id = row[7]
+
+            # Read the sales id file
+            with open("app/sale_id.txt", "r") as file:
+                sale_id = int(file.read())
+            cursor.execute("insert into sales_records( sale_id, art_number, name, price, quantity, total, sold_by,attendant_id) "
+                           "values(%s,%s,%s,%s,%s,%s,%s,%s)",
+                           (sale_id, art_number,name,price,quantity,total,session['attendant'],a_id))
             conn.commit()
             cursor.execute("select * from shoes where art_number = %s" , art_number)
             shoe = cursor.fetchall()
             for rows in shoe:
-                amount_sold = rows[4] + quantity
-                cursor.execute("update shoes set amount_sold = %s where art_number = %s", (amount_sold,art_number))
+                amount_sold = rows[5] + quantity
+                stock = rows[6] - quantity
+                cursor.execute("update shoes set amount_sold = %s, stock = %s where art_number = %s", (amount_sold,stock,art_number))
                 conn.commit()
         cursor.execute("delete from cart where sold_by = %s ", session['attendant'])
         conn.commit()
-        sale_id = 3
+        # Increase sale id
+        sale_id += 1
+        # save it to file
+        with open("app/sale_id.txt", "w") as file:
+            file.write(str(sale_id))
         flash("Order completed successfully", "success")
         return redirect("/attendant_dashboard")
