@@ -146,4 +146,26 @@ def sales():
             rows=cursor.fetchall()
             return render_template("sales.html", rows=rows)
     else:
-        return "Error"
+        flash("Please login first")
+        return redirect("/")
+
+@app.route("/view/<sale_id>")
+def view(sale_id):
+    #  connect to database
+    conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
+                           password=app.config["DB_PASSWORD"],
+                           database=app.config["DB_NAME"])
+    cursor = conn.cursor()
+    cursor.execute("select * from sales_records where sale_id = %s", sale_id)
+    if cursor.rowcount > 0:
+        rows = cursor.fetchall()
+        total = 0
+        for row in rows:
+            total = row[6] + total
+        return render_template("sale_view.html", rows=rows, total=total)
+    elif cursor.rowcount == 0:
+        flash("There is no sale order with the given ID")
+        return redirect("/sales")
+    else:
+        flash("Error occurred try again", "warning")
+        return redirect("/sales")
