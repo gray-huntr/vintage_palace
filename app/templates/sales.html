@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%include 'head_section.html'%}
+    <title>Orders</title>
+</head>
+<body>
+<h3 class="container">Sales records</h3>
+<section>
+    <div class="container">
+        {% include 'msg.html'%}
+        <table class="table ">
+        <tr class="bg-dark text-white">
+            <th>SALE ID</th>
+            <th>DATE</th>
+            <th>TIME</th>
+            <th>ACTION</th>
+        </tr>
+        {% for row in rows%}
+        <tr>
+            <td>{{row [1]}}</td>
+            <td>{{row [9]}}</td>
+            <td>{{row [10]}}</td>
+            <td>
+                <a href="/view/{{row [1]}}"><button class="btn btn-info">View order</button></a>
+                <a href="/complete/{{row [1]}}"><button class="btn btn-primary">Print receipt</button></a>
+            </td>
+        </tr>
+        {%endfor%}
+    </table>
+
+    </div>
+</section>
+
+</body>
+</html>

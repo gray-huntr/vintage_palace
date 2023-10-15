@@ -129,3 +129,21 @@ def checkout():
             file.write(str(sale_id))
         flash("Order completed successfully", "success")
         return redirect("/attendant_dashboard")
+
+@app.route("/sales")
+def sales():
+    #  connect to database
+    conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
+                           password=app.config["DB_PASSWORD"],
+                           database=app.config["DB_NAME"])
+    cursor = conn.cursor()
+    if 'attendant' in session:
+        cursor.execute("select * from sales_records where sold_by = %s", session['attendant'])
+        if cursor.rowcount == 0:
+            flash("You don't have any complete sales", "info")
+            return render_template("sales.html")
+        else:
+            rows=cursor.fetchall()
+            return render_template("sales.html", rows=rows)
+    else:
+        return "Error"
