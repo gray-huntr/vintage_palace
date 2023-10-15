@@ -192,9 +192,10 @@ def shoe_records():
             s_name = request.form['s_name']
             price = request.form['price']
             stock = request.form['stock']
+            status = request.form['status']
 
-            cursor.execute("update shoes set shoe_type = %s, shoe_name = %s, price = %s, stock =%s where art_number = %s",
-                           (s_type,s_name,price,stock,art_number))
+            cursor.execute("update shoes set shoe_type = %s, shoe_name = %s, price = %s, stock =%s, status = %s where art_number = %s",
+                           (s_type,s_name,price,stock,status,art_number))
             conn.commit()
             flash("Record updated successfully", "success")
             return redirect("/shoe_records")
@@ -207,20 +208,31 @@ def shoe_records():
                 rows = cursor.fetchall()
                 return render_template("admins/shoe_records.html", rows=rows)
 
-@app.route("/remove/<category>/<id>")
-def remove(category,id):
-    #  connect to database
-    conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
-                           password=app.config["DB_PASSWORD"],
-                           database=app.config["DB_NAME"])
-    cursor = conn.cursor()
-    if category == "attendant":
-        cursor.execute("delete from attendants where attendant_id = %s", id)
-        conn.commit()
-        flash("Attendant removed successfully", "success")
-        return redirect("/attendants_records")
-    elif category == "shoe":
-        cursor.execute("delete from shoes where art_number = %s", id)
-        conn.commit()
-        flash("Shoe removed successfully", "success")
-        return redirect("/shoe_records")
+@app.route("/attendants_records", methods=['POST','GET'])
+def attendants_records():
+    if 'admin' in session:
+        #  connect to database
+        conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
+                               password=app.config["DB_PASSWORD"],
+                               database=app.config["DB_NAME"])
+        cursor = conn.cursor()
+        if request.method == 'POST':
+            attendant_id = request.form['attendant_id']
+            name = request.form['name']
+            phone = request.form['phone']
+            email = request.form['email']
+            status = request.form['status']
+
+            cursor.execute("update attendants set name = %s, phone = %s, email =%s, status = %s where attendant_id = %s",
+                           (name,phone,email,status,attendant_id))
+            conn.commit()
+            flash("Record updated successfully", "success")
+            return redirect("/attendants_records")
+        else:
+            cursor.execute("select * from attendants")
+            if cursor.rowcount == 0:
+                flash("There are no Records available", "Danger")
+                return render_template("admins/attendants_records.html")
+            else:
+                rows = cursor.fetchall()
+                return render_template("admins/attendants_records.html", rows=rows)

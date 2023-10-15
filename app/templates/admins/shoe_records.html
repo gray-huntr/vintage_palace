@@ -7,7 +7,7 @@
 <body>
 {%include 'admins/admin_nav.html'%}
 <h3 class="container">Shoe records</h3>
-<div class="container">
+<div class="pl-5 pr-5">
     {% include 'msg.html'%}
     <table class="table ">
         <tr>
@@ -17,6 +17,7 @@
             <th>Price</th>
             <th>Amount sold</th>
             <th>Stock</th>
+            <th>Status</th>
             <th>Action</th>
         </tr>
         {%for row in rows%}
@@ -28,9 +29,19 @@
                 <td><input type="number" value="{{row [4]}}" name="price" class="form-control"></td>
                 <td>{{row [5]}}</td>
                 <td><input type="number" name="stock" value="{{row [6]}}" class="form-control"></td>
+                <td>
+                    <select name="status" id="" class="form-control">
+                        {%if row[8] == 'Active'%}
+                        <option value="{{row [8]}}">{{row [8]}}</option>
+                        <option value="Deactivated">Deactivate</option>
+                        {%else%}
+                        <option value="{{row [8]}}">{{row [8]}}</option>
+                        <option value="Active">Activate</option>
+                        {%endif%}
+                    </select>
+                </td>
                 <td class="row">
                     <div class="col-md-6"><button type="submit" class="btn btn-danger" >Update</button></div>
-                    <div class="col-md-6"><a href="/remove/shoe/{{row [1]}}" class="btn btn-dark">Remove</a></div>
                 </td>
         </tr>
         </form>
