@@ -206,3 +206,21 @@ def shoe_records():
             else:
                 rows = cursor.fetchall()
                 return render_template("admins/shoe_records.html", rows=rows)
+
+@app.route("/remove/<category>/<id>")
+def remove(category,id):
+    #  connect to database
+    conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
+                           password=app.config["DB_PASSWORD"],
+                           database=app.config["DB_NAME"])
+    cursor = conn.cursor()
+    if category == "attendant":
+        cursor.execute("delete from attendants where attendant_id = %s", id)
+        conn.commit()
+        flash("Attendant removed successfully", "success")
+        return redirect("/attendants_records")
+    elif category == "shoe":
+        cursor.execute("delete from shoes where art_number = %s", id)
+        conn.commit()
+        flash("Shoe removed successfully", "success")
+        return redirect("/shoe_records")
