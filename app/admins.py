@@ -64,6 +64,8 @@ def admin_login():
         # if cursor.rowcount == 1:
         if cursor.rowcount == 1:
             session['admin'] = email
+            if 'attendant' in session:
+                session.pop('attendant', None)
             return redirect('/shoe_upload')
         elif cursor.rowcount == 0:
             flash("User does not exist or incorrect password", "warning")
@@ -236,3 +238,8 @@ def attendants_records():
             else:
                 rows = cursor.fetchall()
                 return render_template("admins/attendants_records.html", rows=rows)
+
+@app.route("/logout_admin")
+def logout_admin():
+    session.pop('admin', None)
+    return redirect("/admin_login")

@@ -17,12 +17,15 @@ def signin():
             rows = cursor.fetchall()
             for row in rows:
                 session['attendant'] = row[1]
+                if 'admin' in session:
+                    session.pop('admin', None)
                 return redirect("/attendant_dashboard")
         else:
             flash("The code is invalid or your account is blocked", "warning")
             return redirect("/")
     else:
-        return render_template("attendants/index.html")
+
+            return render_template("attendants/index.html")
 
 @app.route("/attendant_dashboard", methods=['POST','GET'])
 def attendant_dashboard():
@@ -179,11 +182,8 @@ def view(sale_id):
         flash("Error occurred try again", "warning")
         return redirect("/sales")
 
-@app.route("/logout")
-def logout():
-    if 'attendant' in session:
-        session.pop('attendant', None)
-        return redirect("/")
-    if 'admin' in session:
-        session.pop('admin', None)
-        return redirect("/admin_login")
+@app.route("/logout_attendants")
+def logout_attendants():
+    session.pop('attendant', None)
+    return redirect("/")
+
