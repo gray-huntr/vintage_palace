@@ -235,6 +235,27 @@ def sales_records():
         flash("Please log in first", "warning")
         return redirect("/admin_login")
 
+@app.route("/admin_view/<sale_id>")
+def admin_view(sale_id):
+    #  connect to database
+    conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
+                           password=app.config["DB_PASSWORD"],
+                           database=app.config["DB_NAME"])
+    cursor = conn.cursor()
+    cursor.execute("select * from sales_records where sale_id = %s", sale_id)
+    if cursor.rowcount > 0:
+        rows = cursor.fetchall()
+        total = 0
+        for row in rows:
+            total = row[6] + total
+        return render_template("admins/sale_view_admin.html", rows=rows, total=total)
+    elif cursor.rowcount == 0:
+        flash("There is no sale order with the given ID", "danger")
+        return redirect("/sales_records")
+    else:
+        flash("Error occurred try again", "warning")
+        return redirect("/sales_records")
+
 @app.route("/attendants_records", methods=['POST','GET'])
 def attendants_records():
     if 'admin' in session:
