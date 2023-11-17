@@ -168,8 +168,8 @@ def attendants_signup():
         return redirect("/admin_login")
 
 
-@app.route("/sales_search", methods=['POST','GET'])
-def sales_search():
+@app.route("/search/<category>", methods=['POST','GET'])
+def sales_search(category):
     if 'admin' in session:
         if request.method == 'POST':
             query = request.form['search']
@@ -178,17 +178,18 @@ def sales_search():
                                    password=app.config["DB_PASSWORD"],
                                    database=app.config["DB_NAME"])
             cursor = conn.cursor()
-            cursor.execute("select * from sales_records where sale_id = %s or sold_by like %s group by sale_id",
-                           (query, '%' + query + '%'))
-            if cursor.rowcount == 0:
-                flash("The are no records for that id or name", "danger")
-                return redirect("/sales_records")
-            elif cursor.rowcount > 0:
-                rows = cursor.fetchall()
-                return render_template("admins/sales_records.html", rows=rows)
-            else:
-                flash("Error occurred try again", "Warning")
-                return redirect("/sales_records")
+            if category == 'sales':
+                cursor.execute("select * from sales_records where sale_id = %s or sold_by like %s group by sale_id",
+                               (query, '%' + query + '%'))
+                if cursor.rowcount == 0:
+                    flash("The are no records for that id or name", "danger")
+                    return redirect("/sales_records")
+                elif cursor.rowcount > 0:
+                    rows = cursor.fetchall()
+                    return render_template("admins/sales_records.html", rows=rows)
+                else:
+                    flash("Error occurred try again", "Warning")
+                    return redirect("/sales_records")
     else:
         flash("Please log in first", "warning")
         return redirect("/admin_login")

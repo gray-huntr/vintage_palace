@@ -9,7 +9,7 @@
 <h3 class="container">Sales records</h3>
 <div class="container">
     {% include 'msg.html'%}
-    <form action="/sales_search" method="post">
+    <form action="/search/sales" method="post">
         <label>Enter attendant name or sale ID</label>
         <input type="text" name="search" required class="form-control"> <br>
         <button class="btn btn-dark">Search</button>
