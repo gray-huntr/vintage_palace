@@ -210,6 +210,25 @@ def shoe_records():
                 rows = cursor.fetchall()
                 return render_template("admins/shoe_records.html", rows=rows)
 
+@app.route("/sales_records")
+def sales_records():
+    #  connect to database
+    conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
+                           password=app.config["DB_PASSWORD"],
+                           database=app.config["DB_NAME"])
+    cursor = conn.cursor()
+    if 'admin' in session:
+        cursor.execute("select * from sales_records group by  sale_id order by sale_id desc")
+        if cursor.rowcount == 0:
+            flash("There are no sales records", "info")
+            return render_template("admins/sales_records.html")
+        else:
+            rows = cursor.fetchall()
+            return render_template("admins/sales_records.html", rows=rows)
+    else:
+        flash("Please log in first", "warning")
+        return redirect("/admin_login")
+
 @app.route("/attendants_records", methods=['POST','GET'])
 def attendants_records():
     if 'admin' in session:
