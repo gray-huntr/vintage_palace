@@ -202,6 +202,18 @@ def sales_search(category):
                 else:
                     flash("Error occurred try again", "Warning")
                     return redirect("/sales_records")
+            elif category == 'attendants':
+                cursor.execute("select * from attendants where attendant_id = %s or name like %s ",
+                               (query, '%' + query + '%'))
+                if cursor.rowcount == 0:
+                    flash("The are no records for that id or name", "warning")
+                    return redirect("/attendants_records")
+                elif cursor.rowcount > 0:
+                    rows = cursor.fetchall()
+                    return render_template("admins/attendants_records.html", rows=rows)
+                else:
+                    flash("Error occurred try again", "Warning")
+                    return redirect("/attendants_records")
     else:
         flash("Please log in first", "warning")
         return redirect("/admin_login")
