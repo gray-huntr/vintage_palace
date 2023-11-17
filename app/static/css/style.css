@@ -1,3 +1,15 @@
-input{
-    width: 400px;
+
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100vh;
+    background: linear-gradient(45deg, #4fa9d9, #02d8ad);
+    font-family: "Sansita Swashed", cursive;
 }
+button {
+    background: linear-gradient(45deg, #d9534f, #0275d8);
+}
+
+

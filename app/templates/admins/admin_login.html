@@ -5,11 +5,13 @@
     <title>Admin login</title>
 </head>
 <body>
-<h3 class="container">Admin login</h3>
+<!--<img src="../static/img.png" alt="">-->
+
 <div class="container" >
         {%include 'msg.html'%}
-        <form action="/admin_login" method="post">
-            <fieldset class="form-group border p-3">
+        <form action="/admin_login" method="post" class="col-md-4 bg-white rounded" >
+            <fieldset class="form-group  p-3">
+                <h3 class="text-center">Admin login</h3>
                 <label>Enter email</label><br>
                 <input type="text" name="email" class="form-control" required placeholder="Enter email">
                 <label>Enter password</label><br>

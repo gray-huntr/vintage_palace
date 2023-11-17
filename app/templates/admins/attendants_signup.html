@@ -6,12 +6,13 @@
 </head>
 <body>
 {% include 'admins/admin_nav.html'%}
-<h3 class="container">Attendant signup</h3>
+
 <section class="">
     <div class="container">
         {%include 'msg.html'%}
         <form action="/attendants_signup" method="post">
-            <fieldset class="form-group border p-3" style="width: 450px">
+            <fieldset class="form-group border rounded p-3 bg-dark text-white" style="width: 450px">
+                <h3 class="text-center">. Attendant signup .</h3>
                 <label>attendant id</label><br>
                 <input class="form-control" type="text" placeholder="Enter attendant id" name="attendant_id" style="width: 400px" required>
                 <label>Name</label><br>

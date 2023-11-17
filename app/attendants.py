@@ -17,8 +17,6 @@ def signin():
             rows = cursor.fetchall()
             for row in rows:
                 session['attendant'] = row[1]
-                if 'admin' in session:
-                    session.pop('admin', None)
                 return redirect("/attendant_dashboard")
         else:
             flash("The code is invalid or your account is blocked", "warning")

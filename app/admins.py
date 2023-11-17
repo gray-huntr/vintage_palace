@@ -64,8 +64,6 @@ def admin_login():
         # if cursor.rowcount == 1:
         if cursor.rowcount == 1:
             session['admin'] = email
-            if 'attendant' in session:
-                session.pop('attendant', None)
             return redirect('/shoe_upload')
         elif cursor.rowcount == 0:
             flash("User does not exist or incorrect password", "warning")

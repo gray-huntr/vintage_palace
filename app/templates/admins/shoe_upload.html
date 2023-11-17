@@ -6,25 +6,27 @@
 </head>
 <body>
 {%include 'admins/admin_nav.html'%}
-    <h3 class="container">Shoe uploads</h3>
+
     <div class="container">
         {%include 'msg.html'%}
 <!--        File selecting-->
-        <form action="/shoe_upload" enctype="multipart/form-data" method="post">
-            <label> Select picture of shoe</label> <br>
-            <input type="file" name="file" > <br>
-<!--            <label>Art number</label>-->
-<!--            <input type="text" name="art_number"  placeholder="Input art number" class="form-control" style="width: 400px">-->
-            <label>Name of shoe</label>
-            <input type="text" name="name"  placeholder="Input name of shoe" class="form-control" style="width: 400px">
-            <label>Price</label>
-            <input type="number" name="price"  placeholder="Input price" class="form-control" style="width: 400px">
-            <label>Shoe type</label>
-            <input type="text" name="shoe_type"  placeholder="Input shoe type" class="form-control" style="width: 400px">
-            <label>Stock</label>
-            <input type="text" name="stock"  placeholder="Input amount of stock" class="form-control" style="width: 400px">
-            <br>
-            <button type="submit" class="btn btn-primary">SUBMIT</button>
+        <form action="/shoe_upload" enctype="multipart/form-data" method="post" class=" col-md-5 rounded">
+            <fieldset class="form-group border rounded p-3 bg-dark text-white">
+                <h3 class="text-center">. Shoe uploads .</h3>
+                <label> Select picture of shoe</label> <br>
+                <input type="file" name="file" > <br>
+                <label>Name of shoe</label>
+                <input type="text" name="name"  placeholder="Input name of shoe" class="form-control">
+                <label>Price</label>
+                <input type="number" name="price"  placeholder="Input price" class="form-control">
+                <label>Shoe type</label>
+                <input type="text" name="shoe_type"  placeholder="Input shoe type" class="form-control">
+                <label>Stock</label>
+                <input type="text" name="stock"  placeholder="Input amount of stock" class="form-control">
+                <br>
+                <button type="submit" class="btn btn-primary">SUBMIT</button>
+            </fieldset>
+
         </form>
     </div>
 </body>

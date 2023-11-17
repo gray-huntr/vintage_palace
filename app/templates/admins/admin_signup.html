@@ -6,12 +6,13 @@
 </head>
 <body>
 {%include 'admins/admin_nav.html'%}
-<h3 class="container">Admin signup</h3>
+
 <section class="">
     <div class="container">
         {%include 'msg.html'%}
         <form action="/admin_signup" method="post" class="col-md-5">
-            <fieldset class="form-group border p-3">
+            <fieldset class="form-group border rounded p-3 bg-dark text-white">
+                <h3 class="text-center">. Admin signup .</h3>
                 <label>Enter name</label><br>
                 <input class="form-control" type="text" placeholder="Enter first name" name="name" required>
                 <label>Email address</label><br>
