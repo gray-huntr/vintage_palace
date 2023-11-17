@@ -2,18 +2,23 @@
 <html lang="en">
 <head>
     {%include 'head_section.html'%}
-    <title>Orders</title>
+    <title>Sales records</title>
 </head>
 <body>
-{%if 'attendant' in session%}
-{%include 'attendants/attendant_nav.html'%}
+{%include 'admins/admin_nav.html'%}
 <h3 class="container">Sales records</h3>
-<section>
-    <div class="container">
-        {% include 'msg.html'%}
-        <table class="table ">
+<div class="container">
+    {% include 'msg.html'%}
+    <form action="/sales_search" method="post">
+        <label>Enter attendant name or sale ID</label>
+        <input type="text" name="search" required class="form-control"> <br>
+        <button class="btn btn-dark">Search</button>
+        <a href="/sales" class="btn btn-dark">Reset</a>
+    </form>
+    <table class="table ">
         <tr class="bg-dark text-white">
             <th>SALE ID</th>
+            <th>SOLD BY</th>
             <th>DATE</th>
             <th>TIME</th>
             <th>ACTION</th>
@@ -21,21 +26,16 @@
         {% for row in rows%}
         <tr>
             <td>{{row [1]}}</td>
+            <td>{{row [7]}}</td>
             <td>{{row [9]}}</td>
             <td>{{row [10]}}</td>
             <td>
                 <a href="/view/{{row [1]}}"><button class="btn btn-info">View order</button></a>
-                <a href="/complete/{{row [1]}}"><button class="btn btn-primary">Print receipt</button></a>
             </td>
         </tr>
         {%endfor%}
     </table>
 
-    </div>
-</section>
-{%else%}
-
-{%endif%}
-
+</div>
 </body>
 </html>
