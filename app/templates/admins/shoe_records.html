@@ -6,10 +6,16 @@
 </head>
 <body>
 {%include 'admins/admin_nav.html'%}
-<h3 class="container">Shoe records</h3>
-<div class="pl-5 pr-5">
+<h3 class="pl-5 pr-5">Shoe records</h3>
+<div class="pl-5 pr-5 ">
     {% include 'msg.html'%}
-    <table class="table ">
+    <form action="/search/shoes" method="post">
+        <label>Enter Art number, Shoe type or Shoe name</label>
+        <input type="text" name="search" required class="form-control"> <br>
+        <button class="btn btn-dark">Search</button>
+        <a href="/shoe_records" class="btn btn-dark">Reset</a>
+    </form>
+    <table class="table">
         <tr>
             <th>Art number</th>
             <th>Shoe type</th>
