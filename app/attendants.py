@@ -1,7 +1,9 @@
 from app import app
 
-from flask import request, session, redirect, flash,render_template
+from flask import request, session, redirect, flash,render_template,make_response
 import pymysql
+from fpdf import FPDF, XPos, YPos
+
 
 @app.route("/", methods=['POST','GET'])
 def signin():
@@ -171,6 +173,65 @@ def view(sale_id):
     else:
         flash("Error occurred try again", "warning")
         return redirect("/sales")
+
+@app.route("/receipt/<sale_id>")
+def receipt(sale_id):
+    conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
+                           password=app.config["DB_PASSWORD"],
+                           database=app.config["DB_NAME"])
+    cursor = conn.cursor()
+    cursor.execute("select * from sales_records where sale_id = %s ", sale_id)
+    rows = cursor.fetchall()
+
+    class PDF(FPDF):
+        def header(self):
+            self.set_font('helvetica', 'B', 20)
+            # title
+            self.cell(0, 10, "VINTAGE PALACE", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+            self.cell(0, 0, border=1, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+
+    # create FPDF object
+    # Layout ('P','L')
+    # Unit ('mm', 'cm', 'in')
+    # format ('A3', 'A4' (default), 'A5', 'Letter', 'Legal', (100,150))
+    pdf = PDF('P', 'mm', (145,200))
+
+    # Add a page
+    pdf.add_page()
+
+    # specify font
+    # fonts ('times', 'courier', 'helvetica', 'symbol', 'zpfdingbats')
+    # 'B' (bold), 'U' (underline), 'I' (italics), '' (regular), combination (i.e., ('BU'))
+    pdf.set_font('times', '', 16)
+    # pdf.set_text_color(220,50,50)
+    # Add text
+    # w = width
+    # h = height
+    # txt = your text
+    # border (0 False; 1 True - add border around cell)
+    pdf.cell(120, 10, f'Order number: {sale_id}', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.cell(55, 10, 'Product Name')
+    pdf.cell(20, 10, 'Cost')
+    pdf.cell(25, 10, 'Qtty')
+    pdf.cell(35, 10, 'Total', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+
+    total_sum = 0
+    for row in rows:
+        pdf.cell(55, 10, f'{row[3]}')
+        pdf.cell(25, 10, f'{row[4]}')
+        pdf.cell(20, 10, f'{row[5]}')
+        pdf.cell(35, 10, f'{row[6]}', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        pdf.cell(110, 0, border=1, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        total_sum = total_sum + row[6]
+
+    pdf.cell(10, 15, f'Total: {total_sum}', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    # pdf.output(f"{sale_id}.pdf")
+    output = bytes(pdf.output(dest='S'))
+# enabling output to be downloadable
+    response = make_response(output)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = f'inline; filename={sale_id}.pdf'
+    return response
 
 @app.route("/logout_attendants")
 def logout_attendants():
