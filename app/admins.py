@@ -168,17 +168,20 @@ def sales_search():
                                    password=app.config["DB_PASSWORD"],
                                    database=app.config["DB_NAME"])
             cursor = conn.cursor()
-            cursor.execute("select * from sales_records where sale_id = %s or name = %s or attendant_id = %s group by sale_id",
-                           (query,query,query))
+            cursor.execute("select * from sales_records where sale_id = %s or sold_by like %s group by sale_id",
+                           (query, '%' + query + '%'))
             if cursor.rowcount == 0:
                 flash("The are no records for that id or name", "danger")
-                return redirect("/sales")
+                return redirect("/sales_records")
             elif cursor.rowcount > 0:
                 rows = cursor.fetchall()
-                return render_template("sales.html", rows=rows)
+                return render_template("admins/sales_records.html", rows=rows)
             else:
                 flash("Error occurred try again", "Warning")
-                return redirect("/sales")
+                return redirect("/sales_records")
+    else:
+        flash("Please log in first", "warning")
+        return redirect("/admin_login")
 
 @app.route("/shoe_records", methods=['POST','GET'])
 def shoe_records():
@@ -209,6 +212,9 @@ def shoe_records():
             else:
                 rows = cursor.fetchall()
                 return render_template("admins/shoe_records.html", rows=rows)
+    else:
+        flash("Please log in first", "warning")
+        return redirect("/admin_login")
 
 @app.route("/sales_records")
 def sales_records():
