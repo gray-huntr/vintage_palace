@@ -9,6 +9,12 @@
 <h3 class="container">Attendant records</h3>
 <div class="container">
     {% include 'msg.html'%}
+     <form action="/search/attendants" method="post">
+        <label>Enter Attendant Id or attendant name</label>
+        <input type="text" name="search" required class="form-control"> <br>
+        <button class="btn btn-dark">Search</button>
+        <a href="/attendants_records" class="btn btn-dark">Reset</a>
+    </form>
     <table class="table ">
         <tr>
             <th>Attendant id</th>
