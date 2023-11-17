@@ -5,7 +5,6 @@
     <title>Orders</title>
 </head>
 <body>
-{%if 'attendant' in session%}
 {%include 'attendants/attendant_nav.html'%}
 <h3 class="container">Sales records</h3>
 <section>
@@ -33,9 +32,6 @@
 
     </div>
 </section>
-{%else%}
-
-{%endif%}
 
 </body>
 </html>

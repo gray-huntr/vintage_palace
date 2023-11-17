@@ -145,18 +145,10 @@ def sales():
                        session['attendant'])
         if cursor.rowcount == 0:
             flash("You don't have any complete sales", "info")
-            return render_template("sales.html")
+            return render_template("attendants/sales.html")
         else:
             rows=cursor.fetchall()
-            return render_template("sales.html", rows=rows)
-    elif 'admin' in session:
-        cursor.execute("select * from sales_records group by  sale_id order by sale_id desc")
-        if cursor.rowcount == 0:
-            flash("There are no sales records", "info")
-            return render_template("sales.html")
-        else:
-            rows = cursor.fetchall()
-            return render_template("sales.html", rows=rows)
+            return render_template("attendants/sales.html", rows=rows)
     else:
         flash("Please log in first", "warning")
         return redirect("/")
@@ -174,7 +166,7 @@ def view(sale_id):
         total = 0
         for row in rows:
             total = row[6] + total
-        return render_template("sale_view.html", rows=rows, total=total)
+        return render_template("attendants/sale_view.html", rows=rows, total=total)
     elif cursor.rowcount == 0:
         flash("There is no sale order with the given ID")
         return redirect("/sales")

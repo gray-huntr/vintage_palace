@@ -73,90 +73,100 @@ def admin_login():
     return render_template('admins/admin_login.html')
 @app.route("/shoe_upload", methods=['POST', 'GET'])
 def shoe_upload():
-    if request.method == 'POST':
-        if 'file' not in request.files:
-            flash('No file part', "warning")
-            return redirect("/shoe_upload")
-        file = request.files['file']
-        name = request.form['name']
-        price = request.form['price']
-        shoe_type = request.form['shoe_type']
-        stock = request.form['stock']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
-        if file.filename == '':
-            flash('No selected file', 'warning')
-            return redirect(url_for('.shoe_upload'))
-        # If all checks are passed, the app proceeds to submit the file
-        elif file and allowed_file(file.filename):
-            try:
-                #  connect to database
-                conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
-                                       password=app.config["DB_PASSWORD"],
-                                       database=app.config["DB_NAME"])
-                cursor = conn.cursor()
+    if 'admin' in session:
+        if request.method == 'POST':
+            if 'file' not in request.files:
+                flash('No file part', "warning")
+                return redirect("/shoe_upload")
+            file = request.files['file']
+            name = request.form['name']
+            price = request.form['price']
+            shoe_type = request.form['shoe_type']
+            stock = request.form['stock']
+            # If the user does not select a file, the browser submits an
+            # empty file without a filename.
+            if file.filename == '':
+                flash('No selected file', 'warning')
+                return redirect(url_for('.shoe_upload'))
+            # If all checks are passed, the app proceeds to submit the file
+            elif file and allowed_file(file.filename):
+                try:
+                    #  connect to database
+                    conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
+                                           password=app.config["DB_PASSWORD"],
+                                           database=app.config["DB_NAME"])
+                    cursor = conn.cursor()
 
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                sql = ("insert into shoes(art_number,shoe_type,shoe_name,price,stock,picture)"
-                       "values(%s,%s,%s,%s,%s,%s)")
-                cursor.execute("select * from shoes order by product_number desc limit 1")
-                rows = cursor.fetchall()
-                art_number = 0
-                for row in rows:
-                    s_id = row[0]+1
-                    art_number = "S"+str(s_id)
+                    filename = secure_filename(file.filename)
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    sql = ("insert into shoes(art_number,shoe_type,shoe_name,price,stock,picture)"
+                           "values(%s,%s,%s,%s,%s,%s)")
+                    cursor.execute("select * from shoes order by product_number desc limit 1")
+                    rows = cursor.fetchall()
+                    art_number = 0
+                    for row in rows:
+                        s_id = row[0]+1
+                        art_number = "S"+str(s_id)
 
-                # send to database
-                cursor.execute(sql, (art_number, shoe_type,name, price,stock,filename))
-                # Save to database
-                conn.commit()
-                flash("Uploaded Successfully", "success")
+                    # send to database
+                    cursor.execute(sql, (art_number, shoe_type,name, price,stock,filename))
+                    # Save to database
+                    conn.commit()
+                    flash("Uploaded Successfully", "success")
+                    return redirect('/shoe_upload')
+                    # if error occurs, display error message
+                except Exception as e:
+                    flash("Upload Failed", "danger")
+                    print(f"An exception occurred: {str(e)}")
+                    return redirect('/shoe_upload')
+            # If file is not on allowed list, display error message
+            else:
+                flash("Uploaded File Not Allowed", "warning")
                 return redirect('/shoe_upload')
-                # if error occurs, display error message
-            except Exception as e:
-                flash("Upload Failed", "danger")
-                print(f"An exception occurred: {str(e)}")
-                return redirect('/shoe_upload')
-        # If file is not on allowed list, display error message
         else:
-            flash("Uploaded File Not Allowed", "warning")
-            return redirect('/shoe_upload')
+            return render_template('admins/shoe_upload.html')
     else:
-        return render_template('admins/shoe_upload.html')
+        flash("Please log in first", "warning")
+        return redirect("/admin_login")
+
 
 @app.route("/attendants_signup", methods=['POST', 'GET'])
 def attendants_signup():
-    if request.method == 'POST':
-        attendant_id = request.form['attendant_id']
-        name = request.form['name']
-        phone = request.form['phone']
-        email = request.form['email']
-        #  connect to database
-        conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
-                               password=app.config["DB_PASSWORD"],
-                               database=app.config["DB_NAME"])
-        cursor = conn.cursor()
-        # Check first whether there is an already existing account
-        cursor.execute("select * from attendants where email = %s or attendant_id = %s ", (email, attendant_id))
-        if cursor.rowcount > 0:
-            flash("Email or employee id already exists, try another one", "warning")
-            return render_template('admins/attendants_signup.html')
-        elif cursor.rowcount == 0:
-            # if there is no existing account, proceed
-            #     insert the records to the attendants tables
-            cursor.execute(
-                "insert into attendants(attendant_id,name,phone,email) values (%s,%s,%s,%s)",
-                (attendant_id, name, phone, email))
-            # save records
-            conn.commit()
-            flash("attendant signed up successfully", "success")
-            return render_template('admins/attendants_signup.html', )
+    if 'admin' in session:
+        if request.method == 'POST':
+            attendant_id = request.form['attendant_id']
+            name = request.form['name']
+            phone = request.form['phone']
+            email = request.form['email']
+            #  connect to database
+            conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
+                                   password=app.config["DB_PASSWORD"],
+                                   database=app.config["DB_NAME"])
+            cursor = conn.cursor()
+            # Check first whether there is an already existing account
+            cursor.execute("select * from attendants where email = %s or attendant_id = %s ", (email, attendant_id))
+            if cursor.rowcount > 0:
+                flash("Email or employee id already exists, try another one", "warning")
+                return render_template('admins/attendants_signup.html')
+            elif cursor.rowcount == 0:
+                # if there is no existing account, proceed
+                #     insert the records to the attendants tables
+                cursor.execute(
+                    "insert into attendants(attendant_id,name,phone,email) values (%s,%s,%s,%s)",
+                    (attendant_id, name, phone, email))
+                # save records
+                conn.commit()
+                flash("attendant signed up successfully", "success")
+                return render_template('admins/attendants_signup.html', )
+            else:
+                flash("Error occurred please try again", "info")
+                return render_template('admins/attendants_signup.html')
         else:
-            flash("Error occurred please try again", "info")
             return render_template('admins/attendants_signup.html')
     else:
-        return render_template('admins/attendants_signup.html')
+        flash("Please log in first", "warning")
+        return redirect("/admin_login")
+
 
 @app.route("/sales_search", methods=['POST','GET'])
 def sales_search():
@@ -237,24 +247,29 @@ def sales_records():
 
 @app.route("/admin_view/<sale_id>")
 def admin_view(sale_id):
-    #  connect to database
-    conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
-                           password=app.config["DB_PASSWORD"],
-                           database=app.config["DB_NAME"])
-    cursor = conn.cursor()
-    cursor.execute("select * from sales_records where sale_id = %s", sale_id)
-    if cursor.rowcount > 0:
-        rows = cursor.fetchall()
-        total = 0
-        for row in rows:
-            total = row[6] + total
-        return render_template("admins/sale_view_admin.html", rows=rows, total=total)
-    elif cursor.rowcount == 0:
-        flash("There is no sale order with the given ID", "danger")
-        return redirect("/sales_records")
+    if 'admin' in session:
+        #  connect to database
+        conn = pymysql.connect(host=app.config["DB_HOST"], user=app.config["DB_USERNAME"],
+                               password=app.config["DB_PASSWORD"],
+                               database=app.config["DB_NAME"])
+        cursor = conn.cursor()
+        cursor.execute("select * from sales_records where sale_id = %s", sale_id)
+        if cursor.rowcount > 0:
+            rows = cursor.fetchall()
+            total = 0
+            for row in rows:
+                total = row[6] + total
+            return render_template("admins/sale_view_admin.html", rows=rows, total=total)
+        elif cursor.rowcount == 0:
+            flash("There is no sale order with the given ID", "danger")
+            return redirect("/sales_records")
+        else:
+            flash("Error occurred try again", "warning")
+            return redirect("/sales_records")
     else:
-        flash("Error occurred try again", "warning")
-        return redirect("/sales_records")
+        flash("Please log in first", "warning")
+        return redirect("/admin_login")
+
 
 @app.route("/attendants_records", methods=['POST','GET'])
 def attendants_records():
@@ -284,6 +299,10 @@ def attendants_records():
             else:
                 rows = cursor.fetchall()
                 return render_template("admins/attendants_records.html", rows=rows)
+    else:
+        flash("Please log in first", "warning")
+        return redirect("/admin_login")
+
 
 @app.route("/logout_admin")
 def logout_admin():

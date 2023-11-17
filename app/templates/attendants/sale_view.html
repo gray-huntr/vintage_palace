@@ -5,7 +5,6 @@
     <title>Sale_view</title>
 </head>
 <body>
-{% if 'attendant' in session%}
 {%include 'attendants/attendant_nav.html'%}
 <h3 class="container">Sale view</h3>
 <div class="container">
@@ -32,8 +31,5 @@
             </tr>
         </table>
     </div>
-{%else%}
-
-{%endif%}
 </body>
 </html>
