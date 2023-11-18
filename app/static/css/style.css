@@ -210,6 +210,17 @@ table button {
     margin: 0;
 }
 
+.button-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.button-container button {
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .table-container {
     overflow: auto;
 }
