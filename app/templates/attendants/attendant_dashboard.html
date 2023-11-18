@@ -12,10 +12,10 @@
     <h3>Welcome to the Attendant dashboard</h3>
     <div>{%include 'msg.html'%}</div>
     <div>
-        <div class="center_display">
-            <div class="search_art_number">
+        <div class="center-display">
+            <div class="search-art-number-special">
                 <form action="/attendant_dashboard" method="post">
-                    <p class="form_title">Input art number below</p>
+                    <p class="form-title">Input art number below</p>
                     <input type="text" name="art_number" required placeholder="Art number">
                     <button>Search</button>
                     <a href="/attendant_dashboard">
@@ -23,39 +23,35 @@
                     </a>
                 </form>
             </div>
-        </div>
-        <div class="center_display">
-            <div class="search_art_number">
-                <!--        Show this if attendant searches for a product-->
-                {%if 'cart' not in session%}
-                <form action="/cart/add" method="post" class="search_art_number">
+            <!--        Show this if attendant searches for a product-->
+            {%if 'cart' not in session%}
+            <div class="search-art-number-special">
+                <form action="/cart/add" method="post">
                     {%for row in rows%}
-                    <div>
-                        <img src="static/images/{{row [7]}}" alt="" style="width: 300px; height: 300px"
-                             class="rounded">
-                    </div>
-                    <div>
-                        <input type="hidden" value="{{row [1]}}" name="art_number">
-                        <input type="hidden" value="{{row [4]}}" name="price">
-                        <input type="hidden" value="{{row [3]}}" name="name">
-                        <h4>Name: {{row [3]}}</h4>
-                        <h4>Price: KSH {{row [4]}}</h4>
-                        <label>Input quantity purchased below</label><br>
-                        <input type="number" name="quantity" value="1" class="form-control"><br>
-                        <button>Add to cart</button>
-                        <a href="/attendant_dashboard" class="btn btn-dark">Cancel</a>
+                    <div class="center-display">
+                        <div>
+                            <img src="static/images/{{row [7]}}" alt="" style="width: 300px; height: 300px"
+                                 class="rounded">
+                        </div>
+                        <div class="search-art-number-special-no-backdrop">
+                            <input type="hidden" value="{{row [1]}}" name="art_number">
+                            <input type="hidden" value="{{row [4]}}" name="price">
+                            <input type="hidden" value="{{row [3]}}" name="name">
+                            <h3>Name: {{row [3]}}</h3>
+                            <h3>Price: KSH {{row [4]}}</h3>
+                            <h3>Input quantity purchased below</h3>
+                            <input type="number" name="quantity" value="1">
+                            <button class="btn-success">Add to cart</button>
+                            <a href="/attendant_dashboard">
+                                <button class="btn-danger">Cancel</button>
+                            </a>
+                        </div>
                     </div>
                     {%endfor%}
                 </form>
-                {%else%}
             </div>
-        </div>
-        <div>
-            <br>
-        </div>
-        <div class="center_display">
-            <div class="search_art_number">
-
+            {%else%}
+            <div class="search-art-number-special">
                 <!--        Show this if nothing has been searched-->
                 <div class="alert-info" role="alert">{{msg}}</div>
                 <div class="table-container">
@@ -76,7 +72,7 @@
                             <td>
                                 <form action="/cart/remove" method="post">
                                     <input type="hidden" name="cart_id" value="{{row[0]}}">
-                                    <button>Remove</button>
+                                    <button class="btn-danger">Remove</button>
                                 </form>
                             </td>
                         </tr>
@@ -85,7 +81,11 @@
                             <td><h3>TOTAL: KSH{{total}}</h3></td>
                         </tr>
                         <tr>
-                            <td><a href="/checkout" class="btn btn-dark">Checkout</a></td>
+                            <td>
+                                <a href="/checkout" class="center-display">
+                                    <button class="btn-success">Checkout</button>
+                                </a>
+                            </td>
                         </tr>
                     </table>
                 </div>

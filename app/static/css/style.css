@@ -8,7 +8,7 @@ body {
     background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
 }
 
-.body_flex {
+.body-flex {
     margin: 0;
     padding: 0;
     display: flex;
@@ -71,7 +71,7 @@ h4 {
     transition: .5s ease-in-out;
 }
 
-.form_title {
+.form-title {
     color: #fff;
     font-size: 1.5em;
     justify-content: center;
@@ -92,7 +92,7 @@ h4 {
     box-shadow: 5px 20px 50px #000;
 }
 
-.search_art_number {
+.search-art-number {
     width: 75%;
     background: red;
     overflow: hidden;
@@ -101,7 +101,8 @@ h4 {
     box-shadow: 5px 20px 50px #000;
 }
 
-.admin_form {
+.search-art-number-special {
+    margin: 10px;
     width: 75%;
     background: red;
     overflow: hidden;
@@ -110,7 +111,23 @@ h4 {
     box-shadow: 5px 20px 50px #000;
 }
 
-.admin_form_special {
+.search-art-number-special-no-backdrop {
+    width: 100%;
+    background: red;
+    overflow: hidden;
+    background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
+}
+
+.admin-form {
+    width: 75%;
+    background: red;
+    overflow: hidden;
+    background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
+    border-radius: 10px;
+    box-shadow: 5px 20px 50px #000;
+}
+
+.admin-form-special {
     width: 99%;
     background: red;
     overflow: hidden;
@@ -120,7 +137,7 @@ h4 {
 }
 
 
-.center_display {
+.center-display {
     justify-content: center;
     align-items: center;
     display: flex;
@@ -199,7 +216,7 @@ table button {
 
 table th, table td {
     white-space: nowrap;
-    padding:2px;
+    padding: 2px;
 }
 
 table tr th:first-child,
@@ -220,10 +237,11 @@ table tr th {
     z-index: 9;
     background: #fff;
 }
+
 table select {
-  appearance: none;
-  background-image: url('data:image/svg+xml;utf8,<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>');
-  background-repeat: no-repeat;
-  background-position: right 10px top 50%;
-  background-size: 12px;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 12px;
 }
