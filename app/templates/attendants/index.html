@@ -5,18 +5,17 @@
     <title>Sign in</title>
 </head>
 <body>
-<h3 class="container">Sign in</h3>
 
 <section>
-    <div class=" container">
+    <div class="main">
         {%include 'msg.html'%}
-        <fieldset class="form-group border p-3 col-md-5 bg-dark text-white">
+        <div class="signin">
             <form action="/" method="post">
-                <label>Input your attendant code below</label><br>
-                <input type="text" name="attendant_id" placeholder="Attendant code" required class="form-control"><br>
-                <button type="submit" class="btn btn-dark">Sign in</button>
+                <label>Sign In</label>
+                <input type="text" name="attendant_id" placeholder="Attendant code" required class="form-control">
+                <button>Sign in</button>
             </form>
-        </fieldset>
+        </div>
     </div>
 </section>
 
