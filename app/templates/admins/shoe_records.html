@@ -48,18 +48,20 @@
                             <td>{{row [5]}}</td>
                             <td><input type="number" name="stock" value="{{row [6]}}"></td>
                             <td>
-                                <select name="status" id="">
-                                    {%if row[8] == 'Active'%}
-                                    <option value="{{row [8]}}">{{row [8]}}</option>
-                                    <option value="Deactivated">Deactivate</option>
-                                    {%else%}
-                                    <option value="{{row [8]}}">{{row [8]}}</option>
-                                    <option value="Active">Activate</option>
-                                    {%endif%}
-                                </select>
+                                <div class="form-control">
+                                    <select name="status" id="">
+                                        {%if row[8] == 'Active'%}
+                                        <option value="{{row [8]}}">{{row [8]}}</option>
+                                        <option value="Deactivated">Deactivate</option>
+                                        {%else%}
+                                        <option value="{{row [8]}}">{{row [8]}}</option>
+                                        <option value="Active">Activate</option>
+                                        {%endif%}
+                                    </select>
+                                </div>
                             </td>
                             <td>
-                                <div class="col-md-6">
+                                <div>
                                     <button type="submit" class="btn btn-danger">Update</button>
                                 </div>
                             </td>

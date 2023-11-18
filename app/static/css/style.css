@@ -189,7 +189,7 @@ table input,
 table select,
 table button {
     width: 100%;
-    box-sizing: border-box; /* Include padding and border in the element's total width */
+    box-sizing: border-box;
     margin: 0;
 }
 
@@ -219,4 +219,11 @@ table tr th {
     top: 0;
     z-index: 9;
     background: #fff;
+}
+table select {
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px top 50%;
+  background-size: 12px;
 }
