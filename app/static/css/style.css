@@ -61,6 +61,16 @@ h3 {
     transition: .5s ease-in-out;
 }
 
+h4 {
+    color: #fff;
+    font-size: 0.9em;
+    justify-content: center;
+    display: flex;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .5s ease-in-out;
+}
+
 .form_title {
     color: #fff;
     font-size: 1.5em;
@@ -90,6 +100,25 @@ h3 {
     border-radius: 10px;
     box-shadow: 5px 20px 50px #000;
 }
+
+.admin_form {
+    width: 75%;
+    background: red;
+    overflow: hidden;
+    background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
+    border-radius: 10px;
+    box-shadow: 5px 20px 50px #000;
+}
+
+.admin_form_special {
+    width: 99%;
+    background: red;
+    overflow: hidden;
+    background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
+    border-radius: 10px;
+    box-shadow: 5px 20px 50px #000;
+}
+
 
 .center_display {
     justify-content: center;
@@ -151,19 +180,30 @@ input {
 
 table {
     text-align: center;
+    table-layout: auto;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table input,
+table select,
+table button {
+    width: 100%;
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+    margin: 0;
 }
 
 .table-container {
-    overflow: scroll;
+    overflow: auto;
 }
 
 table th, table td {
     white-space: nowrap;
-    padding: 10px 20px;
-    width: 100%;
+    padding:2px;
 }
 
-table tr th:first-child, table td:first-child {
+table tr th:first-child,
+table td:first-child {
     position: sticky;
     width: 100px;
     left: 0;

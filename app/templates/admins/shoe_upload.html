@@ -6,28 +6,25 @@
 </head>
 <body>
 {%include 'admins/admin_nav.html'%}
-
-    <div class="container">
-        {%include 'msg.html'%}
-<!--        File selecting-->
-        <form action="/shoe_upload" enctype="multipart/form-data" method="post" class=" col-md-5 rounded">
-            <fieldset class="form-group border rounded p-3 bg-dark text-white">
-                <h3 class="text-center">. Shoe uploads .</h3>
-                <label> Select picture of shoe</label> <br>
-                <input type="file" name="file" > <br>
-                <label>Name of shoe</label>
-                <input type="text" name="name"  placeholder="Input name of shoe" class="form-control">
-                <label>Price</label>
-                <input type="number" name="price"  placeholder="Input price" class="form-control">
-                <label>Shoe type</label>
-                <input type="text" name="shoe_type"  placeholder="Input shoe type" class="form-control">
-                <label>Stock</label>
-                <input type="text" name="stock"  placeholder="Input amount of stock" class="form-control">
+<section>
+    <div class="center_display">
+        <div class="admin_form">
+            {%include 'msg.html'%}
+            <!--        File selecting-->
+            <form action="/shoe_upload" enctype="multipart/form-data" method="post">
+                <h3>. Shoe uploads .</h3>
                 <br>
-                <button type="submit" class="btn btn-primary">SUBMIT</button>
-            </fieldset>
-
-        </form>
+                <h4> Select picture of shoe</h4>
+                <input type="file" name="file">
+                <input type="text" name="name" placeholder="Input name of shoe">
+                <input type="number" name="price" placeholder="Input price">
+                <input type="text" name="shoe_type" placeholder="Input shoe type">
+                <input type="text" name="stock" placeholder="Input amount of stock">
+                <br>
+                <button type="submit">SUBMIT</button>
+            </form>
+        </div>
     </div>
+</section>
 </body>
 </html>

@@ -6,53 +6,70 @@
 </head>
 <body>
 {%include 'admins/admin_nav.html'%}
-<h3 class="pl-5 pr-5">Shoe records</h3>
-<div class="pl-5 pr-5 ">
-    {% include 'msg.html'%}
-    <form action="/search/shoes" method="post">
-        <label>Enter Art number, Shoe type or Shoe name</label>
-        <input type="text" name="search" required class="form-control"> <br>
-        <button class="btn btn-dark">Search</button>
-        <a href="/shoe_records" class="btn btn-dark">Reset</a>
-    </form>
-    <table class="table">
-        <tr>
-            <th>Art number</th>
-            <th>Shoe type</th>
-            <th>Shoe name</th>
-            <th>Price</th>
-            <th>Amount sold</th>
-            <th>Stock</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
-        {%for row in rows%}
-        <form action="/shoe_records" method="post">
-        <tr>
-                <td><input type="hidden" name="art_number" value="{{row [1]}}" >{{row [1]}}</td>
-                <td><input type="text" value="{{row [2]}}" name="s_type" class="form-control"></td>
-                <td><input type="text" value="{{row [3]}}" name="s_name" class="form-control"></td>
-                <td><input type="number" value="{{row [4]}}" name="price" class="form-control"></td>
-                <td>{{row [5]}}</td>
-                <td><input type="number" name="stock" value="{{row [6]}}" class="form-control"></td>
-                <td>
-                    <select name="status" id="" class="form-control">
-                        {%if row[8] == 'Active'%}
-                        <option value="{{row [8]}}">{{row [8]}}</option>
-                        <option value="Deactivated">Deactivate</option>
-                        {%else%}
-                        <option value="{{row [8]}}">{{row [8]}}</option>
-                        <option value="Active">Activate</option>
-                        {%endif%}
-                    </select>
-                </td>
-                <td class="row">
-                    <div class="col-md-6"><button type="submit" class="btn btn-danger" >Update</button></div>
-                </td>
-        </tr>
-        </form>
-        {%endfor%}
-    </table>
+<h3>Shoe records</h3>
+<div>
+    <div class="center_display">
+        <div class="admin_form">
+            {% include 'msg.html'%}
+            <form action="/search/shoes" method="post">
+                <h3>. Enter Art number, Shoe type or Shoe name .</h3>
+                <input type="text" name="search" required>
+                <button>Search</button>
+                <a href="/shoe_records">
+                    <button>Reset</button>
+                </a>
+            </form>
+        </div>
+    </div>
+    <div>
+        <br>
+    </div>
+    <div class="center_display">
+        <div class="admin_form">
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Art number</th>
+                        <th>Shoe type</th>
+                        <th>Shoe name</th>
+                        <th>Price</th>
+                        <th>Amount sold</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    {%for row in rows%}
+                    <form action="/shoe_records" method="post">
+                        <tr class="text-white">
+                            <td><input type="hidden" name="art_number" value="{{row [1]}}">{{row [1]}}</td>
+                            <td><input type="text" value="{{row [2]}}" name="s_type"></td>
+                            <td><input type="text" value="{{row [3]}}" name="s_name"></td>
+                            <td><input type="number" value="{{row [4]}}" name="price"></td>
+                            <td>{{row [5]}}</td>
+                            <td><input type="number" name="stock" value="{{row [6]}}"></td>
+                            <td>
+                                <select name="status" id="">
+                                    {%if row[8] == 'Active'%}
+                                    <option value="{{row [8]}}">{{row [8]}}</option>
+                                    <option value="Deactivated">Deactivate</option>
+                                    {%else%}
+                                    <option value="{{row [8]}}">{{row [8]}}</option>
+                                    <option value="Active">Activate</option>
+                                    {%endif%}
+                                </select>
+                            </td>
+                            <td>
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-danger">Update</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </form>
+                    {%endfor%}
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

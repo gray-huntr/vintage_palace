@@ -6,19 +6,17 @@
 </head>
 <body>
 <!--<img src="../static/img.png" alt="">-->
-
-<div class="container" >
+<section class="body_flex">
+    <div class="admin_form">
         {%include 'msg.html'%}
-        <form action="/admin_login" method="post" class="col-md-4 bg-white rounded" >
-            <fieldset class="form-group  p-3">
-                <h3 class="text-center">Admin login</h3>
-                <label>Enter email</label><br>
-                <input type="text" name="email" class="form-control" required placeholder="Enter email">
-                <label>Enter password</label><br>
-                <input type="password" name="password" class="form-control" required placeholder="Enter password"><br>
-                <button type="submit" class="btn btn-outline-dark">LOGIN</button><br><br>
-            </fieldset>
+        <form action="/admin_login" method="post">
+            <label>Admin login</label>
+            <input type="text" name="email" required placeholder="Enter email">
+            <input type="password" name="password" required placeholder="Enter password"><br>
+            <button type="submit">Login</button>
+            <br><br>
         </form>
     </div>
+</section>
 </body>
 </html>

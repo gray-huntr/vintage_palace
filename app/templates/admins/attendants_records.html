@@ -6,49 +6,68 @@
 </head>
 <body>
 {%include 'admins/admin_nav.html'%}
-<h3 class="container">Attendant records</h3>
-<div class="container">
-    {% include 'msg.html'%}
-     <form action="/search/attendants" method="post">
-        <label>Enter Attendant Id or attendant name</label>
-        <input type="text" name="search" required class="form-control"> <br>
-        <button class="btn btn-dark">Search</button>
-        <a href="/attendants_records" class="btn btn-dark">Reset</a>
-    </form>
-    <table class="table ">
-        <tr>
-            <th>Attendant id</th>
-            <th>Name</th>
-            <th>Phone number</th>
-            <th>Email</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
-        {%for row in rows%}
-        <form action="/attendants_records" method="post">
-        <tr>
-                <td><input type="hidden" name="attendant_id" value="{{row [0]}}" >{{row [0]}}</td>
-                <td><input type="text" value="{{row [1]}}" name="name" class="form-control"></td>
-                <td><input type="number" value="{{row [2]}}" name="phone" class="form-control"></td>
-                <td><input type="email" value="{{row [3]}}" name="email" class="form-control"></td>
-                <td>
-                    <select name="status" id="" class="form-control">
-                        {%if row[4] == 'Active'%}
-                        <option value="{{row [4]}}">{{row [4]}}</option>
-                        <option value="Deactivated">Deactivate</option>
-                        {%else%}
-                        <option value="{{row [4]}}">{{row [4]}}</option>
-                        <option value="Active">Activate</option>
-                        {%endif%}
-                    </select>
-                </td>
-                <td class="row">
-                    <div class="col-md-6"><button type="submit" class="btn btn-danger" >Update</button></div>
-                </td>
-        </tr>
-        </form>
-        {%endfor%}
-    </table>
+<h3>Attendant records</h3>
+<div>
+    <div class="center_display">
+        <div class="admin_form">
+            {% include 'msg.html'%}
+            <form action="/search/attendants" method="post">
+                <h3>. Enter Attendant Id or attendant name .</h3>
+                <input type="text" name="search" required>
+                <button>Search</button>
+                <a href="/attendants_records">
+                    <button>Reset</button>
+                </a>
+            </form>
+        </div>
+    </div>
+    <div>
+        <br>
+    </div>
+    <div class="center_display">
+        <div class="admin_form">
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Attendant id</th>
+                        <th>Name</th>
+                        <th>Phone number</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    {%for row in rows%}
+                    <form action="/attendants_records" method="post">
+                        <tr class="text-white">
+                            <td><input type="hidden" name="attendant_id" value="{{row [0]}}">{{row [0]}}</td>
+                            <td><input type="text" value="{{row [1]}}" name="name" class="form-control"></td>
+                            <td><input type="number" value="{{row [2]}}" name="phone" class="form-control"></td>
+                            <td><input type="email" value="{{row [3]}}" name="email" class="form-control"></td>
+                            <td>
+                                <div class="form-control">
+                                    <select name="status" id="">
+                                        {%if row[4] == 'Active'%}
+                                        <option value="{{row [4]}}">{{row [4]}}</option>
+                                        <option value="Deactivated">Deactivate</option>
+                                        {%else%}
+                                        <option value="{{row [4]}}">{{row [4]}}</option>
+                                        <option value="Active">Activate</option>
+                                        {%endif%}
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <button type="submit" class="btn-danger">Update</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </form>
+                    {%endfor%}
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
