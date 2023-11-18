@@ -213,7 +213,7 @@ table button {
 .button-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 3px;
 }
 
 .button-container button {
